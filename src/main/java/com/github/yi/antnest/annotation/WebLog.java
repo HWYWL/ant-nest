@@ -1,4 +1,4 @@
-package io.github.yi.antnest.annotation;
+package com.github.yi.antnest.annotation;
 
 import java.lang.annotation.*;
 

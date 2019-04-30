@@ -1,4 +1,4 @@
-package io.github.yi.antnest;
+package com.github.yi.antnest;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

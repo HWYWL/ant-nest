@@ -1,4 +1,4 @@
-package io.github.yi.antnest;
+package com.github.yi.antnest;
 
 import org.junit.Test;
 

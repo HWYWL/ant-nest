@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  io.github.yi.antnest.AntNestAutoConfiguration
+  com.github.yi.antnest.AntNestAutoConfiguration
