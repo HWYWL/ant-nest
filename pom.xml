@@ -3,7 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.hwywl</groupId>
     <artifactId>ant-nest</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+<!--    <version>1.0.3-SNAPSHOT</version>-->
+    <version>1.0.3-RELEASE</version>
 
 
     <name>ant-nest</name>
