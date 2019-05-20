@@ -7,7 +7,6 @@
     <!--    <version>1.0.3-SNAPSHOT</version>-->
     <version>1.0.5-RELEASE</version>
 
-
     <name>ant-nest</name>
     <url>https://github.com/HWYWL/ant-nest</url>
     <description>常用注解项目</description>
