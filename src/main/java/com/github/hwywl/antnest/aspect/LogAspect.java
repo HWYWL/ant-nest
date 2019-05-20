@@ -2,11 +2,10 @@ package com.github.hwywl.antnest.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.github.hwywl.antnest.annotation.WebLog;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -22,10 +21,10 @@ import java.util.Map;
  * @author YI
  * @date 2018-7-19 14:27:04
  */
+@Slf4j
 @Aspect
 @Component
 public class LogAspect {
-    private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
     /**
      * 两个..代表所有子目录，最后括号里的两个..代表所有参数
@@ -44,13 +43,13 @@ public class LogAspect {
         Map<String, String[]> parameterMap = request.getParameterMap();
         // 记录下请求内容
         // 打印请求相关参数
-        logger.info("========================================== Start ==========================================");
-        logger.info("请求地址 : " + request.getRequestURL().toString());
-        logger.info("接口描述 : " + getAspectLogDescription(joinPoint));
-        logger.info("HTTP METHOD : " + request.getMethod());
-        logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-        logger.info("参数 : " + Arrays.toString(joinPoint.getArgs()));
-        logger.info("请求参数 : " + JSON.toJSONString(parameterMap));
+        log.info("========================================== Start ==========================================");
+        log.info("请求地址 : " + request.getRequestURL().toString());
+        log.info("接口描述 : " + getAspectLogDescription(joinPoint));
+        log.info("HTTP METHOD : " + request.getMethod());
+        log.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+        log.info("参数 : " + Arrays.toString(joinPoint.getArgs()));
+        log.info("请求参数 : " + JSON.toJSONString(parameterMap));
     }
 
     /**
@@ -62,7 +61,7 @@ public class LogAspect {
     @AfterReturning(returning = "ret", pointcut = "logPointCut()")
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容(返回值太复杂时，打印的是物理存储空间的地址)
-        logger.info("返回值 : " + ret);
+        log.info("返回值 : " + ret);
     }
 
     /**
@@ -72,7 +71,7 @@ public class LogAspect {
     @After("logPointCut()")
     public void doAfter() throws Throwable {
         // 接口结束后换行，方便分割查看
-        logger.info("=========================================== End ===========================================");
+        log.info("=========================================== End ===========================================");
     }
 
     /**
@@ -87,7 +86,7 @@ public class LogAspect {
         long startTime = System.currentTimeMillis();
         // ob 为方法的返回值
         Object ob = pjp.proceed();
-        logger.info("耗时 : " + (System.currentTimeMillis() - startTime));
+        log.info("耗时 : " + (System.currentTimeMillis() - startTime));
         return ob;
     }
 
