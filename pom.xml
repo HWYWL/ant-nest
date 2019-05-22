@@ -6,6 +6,18 @@
     <artifactId>ant-nest</artifactId>
     <!--    <version>1.0.3-SNAPSHOT</version>-->
     <version>1.0.5-RELEASE</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <name>ant-nest</name>
     <url>https://github.com/HWYWL/ant-nest</url>
@@ -20,6 +32,7 @@
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <lombok.version>1.18.6</lombok.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
+        <reflectasm.version>1.11.9</reflectasm.version>
         <junit.version>4.12</junit.version>
     </properties>
 
@@ -66,6 +79,13 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j-api.version}</version>
+        </dependency>
+
+        <!-- 高性能反射工具asm -->
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>reflectasm</artifactId>
+            <version>${reflectasm.version}</version>
         </dependency>
 
         <!--中央仓库-->

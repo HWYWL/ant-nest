@@ -1,4 +1,4 @@
-package com.github.hwywl.antnest.annotation;
+package com.github.hwywl.antnest.annotation.web;
 
 import java.lang.annotation.*;
 

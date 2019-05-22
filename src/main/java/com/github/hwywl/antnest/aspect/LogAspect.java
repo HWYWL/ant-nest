@@ -1,7 +1,7 @@
 package com.github.hwywl.antnest.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.github.hwywl.antnest.annotation.WebLog;
+import com.github.hwywl.antnest.annotation.web.WebLog;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -29,7 +29,7 @@ public class LogAspect {
     /**
      * 两个..代表所有子目录，最后括号里的两个..代表所有参数
      */
-    @Pointcut("@annotation(com.github.hwywl.antnest.annotation.WebLog)")
+    @Pointcut("@annotation(com.github.hwywl.antnest.annotation.web.WebLog)")
     public void logPointCut() {
 
     }
