@@ -19,7 +19,7 @@ import java.util.Map;
  * 请求拦截
  *
  * @author YI
- * @date 2018-7-19 14:27:04
+ * @date 2018-7-19
  */
 @Slf4j
 @Aspect
@@ -66,6 +66,7 @@ public class LogAspect {
 
     /**
      * 在切点之后织入
+     *
      * @throws Throwable
      */
     @After("logPointCut()")
