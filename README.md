@@ -22,6 +22,15 @@
 加入注解之后会拦截请求的日志，日志被安排的整整齐齐，方便我们后端人员的调试工作。
 ![](https://i.imgur.com/9Zmeyuu.png)
 
+### @SqlStatement mybatis SQL拦截
+我们只需要在我们操作的接口实现中加入注解即可
+![](https://i.imgur.com/3PR2m1J.png)
+
+加入注解之后会拦截mybatis的SQL，日志被安排的整整齐齐，方便我们的调试查看和测试SQL性能。
+![](https://i.imgur.com/3YNBBZs.png)
+
+**注意：此注解不能在接口上使用，只能在方法上**
+
 ### 问题建议
 
 - 联系我的邮箱：ilovey_hwy@163.com
