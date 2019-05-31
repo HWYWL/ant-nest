@@ -21,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 
 /**
@@ -37,14 +38,14 @@ import java.util.regex.Matcher;
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
 })
 public class SqlStatementInterceptor implements Interceptor {
-    private Map description;
+    private ConcurrentHashMap description;
     /**
      * 两个..代表所有子目录，最后括号里的两个..代表所有参数
      */
     @Pointcut("@annotation(com.github.hwywl.antnest.annotation.sql.SqlStatement)")
-    public void logPointCut() {}
+    public void sqlPointCut() {}
 
-    @Before("logPointCut()")
+    @Before("sqlPointCut()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
         // 接收到请求，记录请求内容
         description = getAspectLogDescription(joinPoint);
@@ -52,8 +53,8 @@ public class SqlStatementInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        if (description.isEmpty()){
-            return new ArrayList<>();
+        if (description == null || description.isEmpty()){
+            return invocation.proceed();
         }
 
         Object returnValue;
@@ -87,6 +88,14 @@ public class SqlStatementInterceptor implements Interceptor {
         return returnValue;
     }
 
+    /**
+     * 获取到最终的 sql语句
+     * @param configuration 获取节点的配置
+     * @param boundSql BoundSql就是封装 MyBatis最终产生的 sql类
+     * @param sqlId 获取到节点的 id,即 sql语句的 id
+     * @param time 耗时
+     * @param description 用户编写的注解
+     */
     private void printSql(Configuration configuration, BoundSql boundSql, String sqlId, long time, Map description) {
         String sql = showSql(configuration, boundSql);
         log.info("【SQL接口描述】>>>> 作者：{} >>>> 接口用途：{}", description.get("author"), description.get("description"));
@@ -167,8 +176,8 @@ public class SqlStatementInterceptor implements Interceptor {
      * @return 描述信息
      * @throws Exception
      */
-    public Map getAspectLogDescription(JoinPoint joinPoint) throws Exception {
-        Map<String, Object> map = new HashMap<>();
+    public ConcurrentHashMap getAspectLogDescription(JoinPoint joinPoint) throws Exception {
+        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
         String targetName = joinPoint.getTarget().getClass().getName();
         String methodName = joinPoint.getSignature().getName();
 
