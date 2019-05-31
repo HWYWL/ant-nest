@@ -11,7 +11,7 @@
 <dependency>
   <groupId>com.github.hwywl</groupId>
   <artifactId>ant-nest</artifactId>
-  <version>1.0.6-RELEASE</version>
+  <version>1.0.7-RELEASE</version>
 </dependency>
 ```
 
