@@ -61,8 +61,6 @@ public class SqlStatementInterceptor implements Interceptor {
         // 执行 SQL语句
         returnValue = invocation.proceed();
         long end = System.currentTimeMillis();
-        // 耗时
-        long time = end - start;
 
         try {
             final Object[] args = invocation.getArgs();
@@ -79,7 +77,7 @@ public class SqlStatementInterceptor implements Interceptor {
             // 获取节点的配置
             Configuration configuration = ms.getConfiguration();
             // 获取到最终的 sql语句
-            printSql(configuration, boundSql, sqlId, time, description);
+            printSql(configuration, boundSql, sqlId, end - start, description);
         } catch (Exception e) {
             log.error("sql拦截异常:{} ", e.getMessage());
         }
