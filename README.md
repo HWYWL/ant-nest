@@ -1,7 +1,7 @@
 # ant-nest
 蚂蚁巢,专注于方便的注解
 
-[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE) [![Maven Central](https://img.shields.io/static/v1.svg?label=Maven Central&message=1.0.7-RELEASE&color=ff69b4)](https://search.maven.org/search?q=ant-nest)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE) [![Maven Central](https://img.shields.io/badge/ant--nest-1.0.7--RELEASE-ff69b4.svg)](https://search.maven.org/search?q=ant-nest)
 ### 说明
 我们通过注解可以干很多的事，也很方便，大大提高我的开发效率，至此开发常用的注解方便我们使用。
 
