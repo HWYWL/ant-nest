@@ -11,7 +11,7 @@
 <dependency>
   <groupId>com.github.hwywl</groupId>
   <artifactId>ant-nest</artifactId>
-  <version>1.0.7-RELEASE</version>
+  <version>1.0.8-RELEASE</version>
 </dependency>
 ```
 
@@ -30,6 +30,13 @@
 ![](https://i.imgur.com/3YNBBZs.png)
 
 **注意：此注解不能在接口上使用，只能在方法上**
+
+### @OperatingTime 方法耗时计算
+我们只需要在我们操作的接口/方法实现中加入注解即可
+![](https://i.imgur.com/0ciWYkr.png)
+
+加入注解之后我们就能看到方法耗时，方便我们的测试方法编写的性能。
+![](https://i.imgur.com/N0hSuUH.png)
 
 ### 问题建议
 
