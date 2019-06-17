@@ -49,6 +49,7 @@
 ![](https://i.imgur.com/N0hSuUH.png)
 
 <div id="Encrypt"></div>
+
 ### @AESEncryptBody & @DESEncryptBody 接口返回数据加密
 使用之前我们先要在application.properties文件中进行参数配置,密钥至少16位，例如：
 ```
