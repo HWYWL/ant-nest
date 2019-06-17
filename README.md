@@ -1,7 +1,7 @@
 # ant-nest
 蚂蚁巢,专注于方便的注解
 
-[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE) [![Maven Central](https://img.shields.io/badge/ant--nest-1.0.8--RELEASE-ff69b4.svg)](https://search.maven.org/artifact/com.github.hwywl/ant-nest/1.0.8-RELEASE/jar)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE) [![Maven Central](https://img.shields.io/badge/ant--nest-1.0.9--RELEASE-ff69b4.svg)](https://search.maven.org/artifact/com.github.hwywl/ant-nest/1.0.9-RELEASE/jar)
 ### 说明
 我们通过注解可以干很多的事，也很方便，大大提高我的开发效率，至此开发常用的注解方便我们使用。
 
@@ -11,7 +11,7 @@
 <dependency>
   <groupId>com.github.hwywl</groupId>
   <artifactId>ant-nest</artifactId>
-  <version>1.0.8-RELEASE</version>
+  <version>1.0.9-RELEASE</version>
 </dependency>
 ```
 
@@ -37,6 +37,61 @@
 
 加入注解之后我们就能看到方法耗时，方便我们的测试方法编写的性能。
 ![](https://i.imgur.com/N0hSuUH.png)
+
+### @AESEncryptBody & @DESEncryptBody 接口返回数据加密
+使用之前我们先要在application.properties文件中进行参数配置,密钥至少16位，例如：
+```
+encrypt.body.aes-key=1234567812345678
+encrypt.body.des-key=1234567812345678
+```
+
+配置完成，接下来我们就可以愉快的使用了，注解可以使用在类上也可以使用在mvc接口上，例如：
+```java
+@RestController
+@DESEncryptBody
+public class BaikeController {
+    @Autowired
+    BaikeService baikeService;
+
+    @RequestMapping(value = "/selectByExample", method = RequestMethod.POST)
+    public MessageResult selectByExample(){
+        BaikeExample example = new BaikeExample();
+        BaikeExample.Criteria criteria = example.createCriteria();
+        criteria.andNameEqualTo("海明威");
+
+        List<Baike> baikes = baikeService.selectByExample(example);
+
+        return MessageResult.ok(baikes);
+    }
+
+    @RequestMapping(value = "/selectById", method = RequestMethod.POST)
+    public MessageResult selectById(){
+        Baike baike = baikeService.selectByPrimaryKey(1L);
+
+        return MessageResult.ok(baike);
+    }
+}
+```
+**写在类上则所有接口的返回数据都会被加密。**
+
+```java
+@DESEncryptBody
+@RequestMapping(value = "/selectById", method = RequestMethod.POST)
+public MessageResult selectById(){
+    Baike baike = baikeService.selectByPrimaryKey(1L);
+
+    return MessageResult.ok(baike);
+}
+```
+**写在单个接口上可以使改接口返回的数据被加密，不影响其他接口。**
+
+
+- AES加密方式：加密模式:ECB、填充:pkcs5padding、数据块:128位、密码: 配置文件中的key、偏移量: ECB模式不需要、输出:hex、字符集：UTF-8
+
+- DES加密方式：加密模式:ECB、填充:pkcs5padding、数据块:128位、密码: 配置文件中的key、偏移量: ECB模式不需要、输出:hex、字符集：UTF-8
+
+返回的数据可以在这个网站上解密测试：http://tool.chacuo.net/cryptaes
+![](https://i.imgur.com/6RQTVG8.png)
 
 ### 问题建议
 
