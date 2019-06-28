@@ -38,7 +38,6 @@ import java.lang.reflect.Type;
  * @version 2019年6月16日
  * @see RequestBodyAdvice
  */
-@Order(1)
 @ControllerAdvice
 @Slf4j
 public class DecryptRequestBodyAdvice implements RequestBodyAdvice {

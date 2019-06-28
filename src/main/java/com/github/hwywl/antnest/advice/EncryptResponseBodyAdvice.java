@@ -35,7 +35,6 @@ import java.lang.annotation.Annotation;
  * @version 2019年6月16日
  * @see ResponseBodyAdvice
  */
-@Order(1)
 @ControllerAdvice
 @Slf4j
 public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {

@@ -23,6 +23,7 @@
 - [@SqlStatement mybatis SQL拦截](#SqlStatement)
 - [@OperatingTime 方法耗时计算](#OperatingTime)
 - [@AESEncryptBody @DESEncryptBody接口返回数据加密](#Encrypt)
+- [@AESDecryptBody @DESDecryptBody接口请求数据解密](#Decrypt)
 
 
 <div id="WebLog"></div>
@@ -103,6 +104,24 @@ public MessageResult selectById(){
 ```
 **写在单个接口上可以使改接口返回的数据被加密，不影响其他接口。**
 
+<div id="Decrypt"></div>
+
+我们只需要在请求接口的方法上加上解密的注解即可解密，例如：
+```java
+@DESDecryptBody
+@RequestMapping(value = "/selectByIdDecrypt", method = RequestMethod.GET)
+public MessageResult selectByIdDecrypt(@RequestBody String content){
+
+    System.out.println(content);
+
+    return MessageResult.ok(content);
+}
+```
+**注意：请求参数必须写上@RequestBody注解，不然注解不会生效**
+
+我们使用postman来请求一下我们的接口
+![](https://i.imgur.com/d2TukWV.png)
+加密解密至此完成！！！
 
 - AES加密方式：加密模式:ECB、填充:pkcs5padding、数据块:128位、密码: 配置文件中的key、偏移量: ECB模式不需要、输出:hex、字符集：UTF-8
 
