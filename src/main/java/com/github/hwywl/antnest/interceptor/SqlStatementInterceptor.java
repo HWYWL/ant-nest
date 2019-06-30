@@ -174,7 +174,7 @@ public class SqlStatementInterceptor implements Interceptor {
      * @throws Exception
      */
     public ConcurrentHashMap getAspectLogDescription(JoinPoint joinPoint) throws Exception {
-        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>(16);
         String targetName = joinPoint.getTarget().getClass().getName();
         String methodName = joinPoint.getSignature().getName();
 
