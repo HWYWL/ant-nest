@@ -11,7 +11,7 @@
 <dependency>
   <groupId>com.github.hwywl</groupId>
   <artifactId>ant-nest</artifactId>
-  <version>1.0.9-RELEASE</version>
+  <version>1.0.10-RELEASE</version>
 </dependency>
 ```
 
@@ -24,6 +24,7 @@
 - [@OperatingTime 方法耗时计算](#OperatingTime)
 - [@AESEncryptBody @DESEncryptBody接口返回数据加密](#Encrypt)
 - [@AESDecryptBody @DESDecryptBody接口请求数据解密](#Decrypt)
+- [@MethodCounter 计算方法调用次数](#MethodCounter)
 
 
 <div id="WebLog"></div>
@@ -129,6 +130,19 @@ public MessageResult selectByIdDecrypt(@RequestBody String content){
 
 返回的数据可以在这个网站上解密测试：http://tool.chacuo.net/cryptaes
 ![](https://i.imgur.com/6RQTVG8.png)
+
+
+<div id="MethodCounter"></div>
+
+### @MethodCounter 计算方法调用次数
+使用@MethodCounter注解在我们的方法上即可使用，例如：
+![](https://i.imgur.com/FKCepyl.png)
+
+获取调用的次数是：
+```java
+Long num = MethodCounterAspect.cacheMap.get("方法名");
+```
+**注意：不支持分布式系统，只能计算当前服务器方法调用的次数。**
 
 ### 问题建议
 
