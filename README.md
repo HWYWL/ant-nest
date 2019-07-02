@@ -15,6 +15,8 @@
 </dependency>
 ```
 
+如果想看看注解例子的使用可以参考这个项目：[spring-boot-mybatis-druid](https://github.com/HWYWL/spring-boot-2.x-examples/tree/master/spring-boot-mybatis-druid)
+
 **注解描述：**
 
 ----------
@@ -150,7 +152,7 @@ Long num = MethodCounterAspect.cacheMap.get("方法名");
 
 ### @GetProperties 项目启动时加载自定义properties配置文件
 作用就是标题所示啦，在我们需要使用配置一些东西但又不想写bean的时候可以使用此注解，下面我们来看看注解的使用方式。
-注解可以放在类上面也可以放在方法上面，效果其实是一样的，放在方法上本来是想实现用完like卸载，目前此功能还没实现。
+注解可以放在类上面也可以放在方法上面，效果其实是一样的，放在方法上本来是想实现用完立刻卸载，目前此功能还没实现。
 
 默认加载**resources**目录,好啦，我们来看看使用：
 类加载：表示加载**resources**目录下**aaaa**文件夹下的a.properties
