@@ -25,6 +25,8 @@
 - [@AESEncryptBody @DESEncryptBody接口返回数据加密](#Encrypt)
 - [@AESDecryptBody @DESDecryptBody接口请求数据解密](#Decrypt)
 - [@MethodCounter 计算方法调用次数](#MethodCounter)
+- [@GetProperties 项目启动时加载自定义properties配置文件](#GetProperties)
+
 
 
 <div id="WebLog"></div>
@@ -143,6 +145,66 @@ public MessageResult selectByIdDecrypt(@RequestBody String content){
 Long num = MethodCounterAspect.cacheMap.get("方法名");
 ```
 **注意：不支持分布式系统，只能计算当前服务器方法调用的次数。**
+
+<div id="GetProperties"></div>
+
+### @GetProperties 项目启动时加载自定义properties配置文件
+作用就是标题所示啦，在我们需要使用配置一些东西但又不想写bean的时候可以使用此注解，下面我们来看看注解的使用方式。
+注解可以放在类上面也可以放在方法上面，效果其实是一样的，放在方法上本来是想实现用完like卸载，目前此功能还没实现。
+
+默认加载**resources**目录,好啦，我们来看看使用：
+类加载：表示加载**resources**目录下**aaaa**文件夹下的a.properties
+```java
+@Configuration
+@GetProperties(properties = "aaaa/a.properties")
+public class Config {
+
+}
+```
+![](https://i.imgur.com/dG8j1Am.png)
+
+方法加载：表示加载**resources**目录下的c.properties和d.properties配置文件
+```java
+@RequestMapping(value = "/selectByIdEncrypt", method = RequestMethod.POST)
+@GetProperties(properties = {"d.properties", "c.properties"})
+public MessageResult selectByIdEncrypt(){
+
+
+    Baike baike = baikeService.selectByPrimaryKey(1L);
+
+    Map cachemap = GetPropertiesListener.CACHEMAP;
+    System.out.println(cachemap.get("d.spring.datasource.username"));
+
+    return MessageResult.ok(baike);
+}
+```
+
+获取配置信息：
+例如我们在**aaaa/a.properties**配置文件中配置了如下信息
+```
+mybatis.type-aliases-package=com.yi.mybatis.model
+```
+那么我们只需要使用：路径+文件名+配置key即可获取
+```
+Object value = GetPropertiesListener.CACHEMAP.get("aaaa.a.mybatis.type-aliases-package");
+```
+
+例如我们在**d.properties**配置文件中配置了如下信息
+```
+mybatis.type-aliases-package=com.yi.mybatis.model
+```
+那么我们只需要使用：文件名+配置key即可获取
+```
+Object value = GetPropertiesListener.CACHEMAP.get("d.mybatis.type-aliases-package");
+```
+
+**注意：在包含文件夹的路径下不用在路径前面加上“/”，例如：**
+```
+正确：@GetProperties(properties = "aaaa/a.properties")
+```
+```
+错误：@GetProperties(properties = "/aaaa/a.properties")
+```
 
 ### 问题建议
 
