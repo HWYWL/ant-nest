@@ -13,9 +13,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "zk.lock")
 public class ZkProps {
     /**
+     * 是否启用zookeeper分布式锁
+     */
+    private boolean enabled = false;
+
+    /**
      * 连接地址
      */
-    private String url;
+    private String url = "127.0.0.1:2181";
 
     /**
      * 超时时间(毫秒)，默认1000

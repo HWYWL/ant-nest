@@ -30,7 +30,9 @@ public class ZkConfig {
     public CuratorFramework curatorFramework() {
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(zkProps.getTimeout(), zkProps.getRetry());
         CuratorFramework client = CuratorFrameworkFactory.newClient(zkProps.getUrl(), retryPolicy);
-        client.start();
+        if (zkProps.isEnabled()) {
+            client.start();
+        }
 
         return client;
     }
