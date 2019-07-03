@@ -1,7 +1,7 @@
 # ant-nest
 蚂蚁巢,专注于方便的注解
 
-[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE) [![Maven Central](https://img.shields.io/badge/ant--nest-1.1.0--RELEASE-ff69b4.svg)](https://search.maven.org/artifact/com.github.hwywl/ant-nest/1.1.0-RELEASE/jar)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE) [![Maven Central](https://img.shields.io/badge/ant--nest-1.1.1--RELEASE-ff69b4.svg)](https://search.maven.org/artifact/com.github.hwywl/ant-nest/1.1.1-RELEASE/jar)
 ### 说明
 我们通过注解可以干很多的事，也很方便，大大提高我的开发效率，至此开发常用的注解方便我们使用。
 
@@ -11,7 +11,7 @@
 <dependency>
   <groupId>com.github.hwywl</groupId>
   <artifactId>ant-nest</artifactId>
-  <version>1.1.0-RELEASE</version>
+  <version>1.1.1-RELEASE</version>
 </dependency>
 ```
 
@@ -28,7 +28,7 @@
 - [@AESDecryptBody @DESDecryptBody接口请求数据解密](#Decrypt)
 - [@MethodCounter 计算方法调用次数](#MethodCounter)
 - [@GetProperties 项目启动时加载自定义properties配置文件](#GetProperties)
-
+- [@ZooLock 分布式锁](#ZooLock)
 
 
 <div id="WebLog"></div>
@@ -207,6 +207,89 @@ Object value = GetPropertiesListener.CACHEMAP.get("d.mybatis.type-aliases-packag
 ```
 错误：@GetProperties(properties = "/aaaa/a.properties")
 ```
+
+<div id="ZooLock"></div>
+
+### @ZooLock 基于zookeeper的分布式锁
+这个注解作用于方法，让方法在分布式系统中拥有分布式锁的能力，当然也可以用于单体服务当普通锁用（不推荐）。
+使用也非常简单，我们来看一个最简单的例子，在写例子之前我们需要在application.properties配置文件中配置一些参数
+```
+# 基于zookeeper分布式锁配置
+# 要使用分布式锁，必须设置为true
+zk.lock.enabled=true
+zk.lock.url=127.0.0.1:2181
+# 重试次数，默认3
+zk.lock.retry=3
+# 超时时间(毫秒)
+zk.lock.timeout=1000
+```
+配置完成我们来看看简单使用此注解的例子：
+```java
+/**
+ * 通过设置分布式锁，使得方法具有分布式锁的能力
+ * <p>分布式锁key：/DISTRIBUTED_LOCK_books</p>
+ * @return
+ * @throws InterruptedException
+ */
+@ZooLock(key = "books")
+@RequestMapping(value = "/selectByExample", method = RequestMethod.POST)
+public MessageResult selectByExample() throws InterruptedException {
+    BaikeExample example = new BaikeExample();
+    BaikeExample.Criteria criteria = example.createCriteria();
+
+    criteria.andNameEqualTo("海明威");
+    List<Baike> hBaikes = baikeService.selectByExample(example);
+    List<Baike> allBooks = new ArrayList<>(hBaikes);
+
+    Thread.sleep(6000);
+
+    return MessageResult.ok(allBooks);
+}
+```
+默认如果没有设置，锁释放时间，默认五秒，我们延时是六秒钟，此时如果有两个请求过来，我们就会发现一个返回结果，一个如下图所示
+![](https://i.imgur.com/1rmzdpA.png)
+
+接一下我们看一个比较复杂的例子，可以生成分布式锁动态key
+```java
+/**
+ * 通过@LockKeyParam 实现分布式锁动态key，如果对象中的id和book分别为 1 和 全职法师
+ * <p>分布式锁key：/DISTRIBUTED_LOCK_books/1/全职法师</p>
+ * @param baike 前端传入对象参数
+ * @return
+ * @throws InterruptedException
+ */
+@ZooLock(key = "books", timeout = 3000L)
+@RequestMapping(value = "/getBaikes", method = RequestMethod.POST)
+public MessageResult getBaikes(@LockKeyParam(fields = {"id","book"}) Baike baike) throws InterruptedException {
+    System.out.println("我进来啦！！！");
+    Thread.sleep(5000);
+    System.out.println("我出来啦！！！");
+
+    return MessageResult.ok(baike);
+}
+```
+在我们**Baike**的对象中包含id和book属性，通过@LockKeyParam注解就可以把这两个属性动态添加到key中，实现我们自定义key的操作。
+
+当然我们使用@LockKeyParam注解不一定要在对象中，普通参数属性也可以，例如：
+```java
+/**
+ * 通过@LockKeyParam 实现分布式锁动态key，如果参数name为 全职法师
+ * <p>分布式锁key：/DISTRIBUTED_LOCK_books/全职法师</p>
+ * @param name 前端书名参数
+ * @return
+ * @throws InterruptedException
+ */
+@ZooLock(key = "books", timeout = 3000L)
+@RequestMapping(value = "/getBaikeName", method = RequestMethod.POST)
+public MessageResult getBaikes(@LockKeyParam String name) throws InterruptedException {
+    System.out.println("我进来啦！！！");
+    Thread.sleep(5000);
+    System.out.println("我出来啦！！！");
+
+    return MessageResult.ok(name);
+}
+```
+是不是很简单，赶紧去试试吧
 
 ### 问题建议
 
