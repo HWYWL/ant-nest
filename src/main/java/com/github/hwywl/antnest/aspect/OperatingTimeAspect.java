@@ -44,10 +44,10 @@ public class OperatingTimeAspect {
      */
     @Around(value = "logPointCut()")
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
         // ob 为方法的返回值
         Object ob = pjp.proceed();
-        log.info("耗时 : " + (System.currentTimeMillis() - startTime) + " 毫秒");
+        log.info("耗时 : " + (System.nanoTime() - startTime) + " 毫秒");
 
         return ob;
     }
