@@ -39,7 +39,7 @@
         <mybatis.version>2.0.1</mybatis.version>
         <hutool-all.version>4.5.16</hutool-all.version>
         <commons-io.version>2.6</commons-io.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencies>
